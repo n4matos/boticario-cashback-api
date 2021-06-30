@@ -68,8 +68,8 @@ export class PurchasesRoutes extends CommonRoutesConfig {
       body('date').isDate().optional(),
       body('cpf')
         .isString()
-        .isLength({ min: 14, max: 14 })
-        .withMessage('Must include cpf (14 characters)')
+        .isLength({ min: 11, max: 11 })
+        .withMessage('Must include cpf (11 characters)')
         .optional(),
       BodyValidationMiddleware.verifyBodyFieldsErrors,
       jwtMiddleware.validJWTNeeded,
