@@ -56,7 +56,7 @@ class PurchasesService implements CRUD {
   }
 
   async getCashbackExternalApi() {
-    const baseUrl = config.apiAccumulateCashback;
+    const baseUrl = config.apiExternalCashback;
     const queryString = '?cpf=12312312323';
 
     const response = await fetch(baseUrl + queryString, {

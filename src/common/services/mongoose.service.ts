@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import debug from 'debug';
+import config from '../../config/config';
 
 const log: debug.IDebugger = debug('app:mongoose-service');
 
@@ -23,7 +24,7 @@ class MongooseService {
   connectWithRetry = () => {
     log('Attempting MongoDB connection (will retry if needed)');
     mongoose
-      .connect('mongodb://localhost:27017/api-cashback', this.mongooseOptions)
+      .connect(config.dbUri, this.mongooseOptions)
       .then(() => {
         log('MongoDB is connected');
       })
