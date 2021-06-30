@@ -42,7 +42,7 @@ class PurchasesDao {
 
   async getPurchases(limit = 25, page = 0) {
     return this.Purchase.find()
-      .select('_id code value date cashback_percent cashback_value')
+      .select('_id code value date cashback_percent cashback_value status')
       .limit(limit)
       .skip(limit * page)
       .exec();
@@ -50,7 +50,7 @@ class PurchasesDao {
 
   async getPurchaseById(purchaseId: string) {
     return this.Purchase.findOne({ _id: purchaseId })
-      .select('_id code value date cashback_percent cashback_value')
+      .select('_id code value date cashback_percent cashback_value status')
       .populate('Purchase').exec();
   }
 
