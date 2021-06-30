@@ -33,13 +33,12 @@ export class PurchasesRoutes extends CommonRoutesConfig {
 
     this.app
       .route(`/purchases/:purchaseId`)
+      .all(
+        purchasesMiddleware.validatePurchaseExists,
+        jwtMiddleware.validJWTNeeded
+      )
       .get(PurchasesController.getPurchaseById)
-
-    this.app.delete(`/purchases/:purchaseId`, [
-      jwtMiddleware.validJWTNeeded,
-      purchasesMiddleware.validatePurchaseStatus,
-      PurchasesController.removePurchase
-    ]);
+      .delete(PurchasesController.removePurchase);
 
     this.app.put(`/purchases/:purchaseId`, [
       body('code').isNumeric(),

@@ -34,7 +34,6 @@ class PurchasesService implements CRUD {
   }
 
   async patchById(id: string, resource: PatchPurchaseDto) {
-
     return PurchasesDao.updatePurchaseById(id, resource);
   }
 

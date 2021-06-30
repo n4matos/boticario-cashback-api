@@ -46,6 +46,21 @@ class PurchasesMiddleware {
     next();
   }
 
+  async validatePurchaseExists(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    const purchase = await purchaseService.readById(req.params.purchaseId);
+    if (purchase) {
+      next();
+    } else {
+      res.status(404).send({
+        error: `Purchase ${req.params.purchaseId} not found`,
+      });
+    }
+  }
+
 }
 
 export default new PurchasesMiddleware();
