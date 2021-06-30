@@ -72,8 +72,8 @@ class PurchasesDao {
   }
 
   async getPurchaseStatus(purchaseId: string) {
-    return this.Purchase.findOne({ _id: purchaseId })
-      .select('status -_id')
+    return this.Purchase.findOne({ _id: purchaseId, status: 'Aprovado' })
+      .countDocuments()
       .exec();
   }
 }
