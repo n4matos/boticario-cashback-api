@@ -69,6 +69,24 @@ class UsersMiddleware {
     req.body.id = req.params.userId;
     next();
   }
+
+  async validateCpf(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    const cpf = await userService.validateCpf(req.body.cpf);
+    console.log(cpf);
+    if (cpf) {
+      next();
+    } else {
+      res.status(404).send({
+        error: `Cpf ${req.body.cpf} not valid`,
+      });
+    }
+  }
+
+
 }
 
 export default new UsersMiddleware();

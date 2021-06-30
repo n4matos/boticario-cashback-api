@@ -23,7 +23,13 @@ export class UsersRoutes extends CommonRoutesConfig {
         body('password')
           .isLength({ min: 5 })
           .withMessage('Must include password (5+ characters)'),
+        body('name').isString(),
+        body('cpf')
+          .isString()
+          .isLength({ min: 11, max: 11 })
+          .withMessage('Must include cpf (11 characters)'),
         BodyValidationMiddleware.verifyBodyFieldsErrors,
+        UsersMiddleware.validateCpf,
         UsersMiddleware.validateSameEmailDoesntExist,
         UsersController.createUser
       );
