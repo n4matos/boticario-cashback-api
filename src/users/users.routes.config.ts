@@ -4,6 +4,7 @@ import UsersMiddleware from './middleware/users.middleware';
 import express from 'express';
 import BodyValidationMiddleware from '../common/middleware/body.validation.middleware';
 import { body } from 'express-validator';
+import jwtMiddleware from '../auth/middleware/jwt.middleware'
 
 export class UsersRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -13,18 +14,15 @@ export class UsersRoutes extends CommonRoutesConfig {
   configureRoutes(): express.Application {
     this.app
       .route(`/users`)
-      .get(UsersController.listUsers)
+      .get(
+        jwtMiddleware.validJWTNeeded,
+        UsersController.listUsers
+      )
       .post(
         body('email').isEmail(),
         body('password')
-          .isAlphanumeric()
           .isLength({ min: 5 })
           .withMessage('Must include password (5+ characters)'),
-        body('name').isString(),
-        body('cpf')
-          .isString()
-          .isLength({ min: 14, max: 14 })
-          .withMessage('Must include cpf (4 characters)'),
         BodyValidationMiddleware.verifyBodyFieldsErrors,
         UsersMiddleware.validateSameEmailDoesntExist,
         UsersController.createUser
@@ -34,7 +32,10 @@ export class UsersRoutes extends CommonRoutesConfig {
 
     this.app
       .route(`/users/:userId`)
-      .all(UsersMiddleware.validateUserExists)
+      .all(
+        UsersMiddleware.validateUserExists,
+        jwtMiddleware.validJWTNeeded
+      )
       .get(UsersController.getUserById)
       .delete(UsersController.removeUser);
 
