@@ -21,7 +21,7 @@ class PurchasesController {
     if (user) {
       res.status(200).send(user);
     } else {
-      res.status(200).json({
+      res.status(204).json({
         message: 'Purchase has not found'
       })
     }
