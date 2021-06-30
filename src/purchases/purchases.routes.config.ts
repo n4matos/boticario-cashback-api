@@ -19,7 +19,7 @@ export class PurchasesRoutes extends CommonRoutesConfig {
     this.app.post(`/purchases`, [
       body('code').isNumeric(),
       body('value').isNumeric(),
-      body('date').isDate(),
+      body('date').isISO8601(),
       body('cpf')
         .isString()
         .isLength({ min: 14, max: 14 })
