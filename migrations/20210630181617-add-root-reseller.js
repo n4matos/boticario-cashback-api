@@ -3,7 +3,7 @@ module.exports = {
     // TODO write your migration here.
     // See https://github.com/seppevs/migrate-mongo/#creating-a-new-migration-script
     // Example:
-    await db.collection('users').insertOne({ name: 'Root Reseller', cpf: '153.509.460-56' });
+    await db.collection('users').insertOne({ name: 'Root Reseller', cpf: '15350946056', email: 'admin@apicashback.com.br' });
   },
 
   async down(db, client) {
