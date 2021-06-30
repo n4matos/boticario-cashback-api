@@ -10,13 +10,22 @@ let refreshToken = '';
 let firstUserIdTest = '';
 const userBody = {
   email: `nathanteste+${shortid.generate()}@gmail.com`,
-  password: 'Sup3rSecret!23'
+  password: 'Sup3rSecret!23',
+  name: 'Teste teste',
+  cpf: '68143181057',
 };
 
 let firstPurchaseIdTest = '';
 const purchaseBody = {
   code: Math.floor(Math.random() * 1000),
-  cpf: '232.333.111-26',
+  cpf: '68143181057',
+  date: dateTime.toISOString(),
+  value: Math.floor(Math.random() * 1000),
+};
+
+const purchaseBodyNoReseller = {
+  code: Math.floor(Math.random() * 1000),
+  cpf: '83123035026',
   date: dateTime.toISOString(),
   value: Math.floor(Math.random() * 1000),
 };
@@ -24,12 +33,10 @@ const purchaseBody = {
 let purchaseApprovedIdTest = '';
 const purchaseBodyApproved = {
   code: Math.floor(Math.random() * 1000),
-  cpf: '153.509.460-56',
+  cpf: '15350946056',
   date: dateTime.toISOString(),
   value: Math.floor(Math.random() * 1000),
 };
-
-
 
 const newCode = Math.floor(Math.random() * 1000);
 
@@ -75,7 +82,8 @@ describe('auth endpoint', function () {
       firstPurchaseIdTest = res.body.id;
     });
 
-    it('should allow a POST to /purchases with an access token and approved purchase', async function () {
+
+    it('should allow a POST to /purchases with an access token and approved purchase status', async function () {
       const res = await request
         .post('/purchases')
         .set({ Authorization: `Bearer ${accessToken}` })
@@ -84,6 +92,17 @@ describe('auth endpoint', function () {
       expect(res.body).not.to.be.empty;
       expect(res.body).to.be.an('object');
       expect(res.body.id).to.be.a('string');
+      purchaseApprovedIdTest = res.body.id;
+    });
+
+    it('should disallow a POST to /purchases when no resellers are registered', async function () {
+      const res = await request
+        .post('/purchases')
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .send(purchaseBodyNoReseller);
+      expect(res.status).to.equal(404);
+      expect(res.body).not.to.be.empty;
+      expect(res.body).to.be.an('object');
       purchaseApprovedIdTest = res.body.id;
     });
 
@@ -115,32 +134,40 @@ describe('auth endpoint', function () {
       expect(res.status).to.equal(204);
     });
 
-    it('should disallow a PATCH to /purchases/:purchaseId with aproved purchase status', async function () {
+    it('should disallow a PATCH to /purchases/:purchaseId with approved purchase status', async function () {
       const res = await request
         .patch(`/purchases/${purchaseApprovedIdTest}`)
         .set({ Authorization: `Bearer ${accessToken}` })
         .send({
           code: newCode,
         });
-      expect(res.status).to.equal(204);
-    });
-
-    it('should disallow a DELETE to /purchases/:purchaseId with aproved purchase status', async function () {
-      const res = await request
-        .patch(`/purchases/${purchaseApprovedIdTest}`)
-        .set({ Authorization: `Bearer ${accessToken}` })
-        .send();
-      expect(res.status).to.equal(204);
+      expect(res.status).to.equal(400);
     });
 
     it('should disallow a PATCH to /purchases/:purchaseId with an nonexistent ID', async function () {
       const res = await request
-        .patch(`/purchases/i-do-not-exist`)
+        .patch(`/purchases/no-exist`)
         .set({ Authorization: `Bearer ${accessToken}` })
         .send({
           code: purchaseBody.code,
         });
       expect(res.status).to.equal(404);
+    });
+
+    it('should allow a DELETE to /purchases/:purchaseId with normal purchase status', async function () {
+      const res = await request
+        .delete(`/purchases/${firstPurchaseIdTest}`)
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .send();
+      expect(res.status).to.equal(204);
+    });
+
+    it('should disallow a DELETE to /purchases/:purchaseId with approved purchase status', async function () {
+      const res = await request
+        .delete(`/purchases/${purchaseApprovedIdTest}`)
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .send();
+      expect(res.status).to.equal(400);
     });
 
 
