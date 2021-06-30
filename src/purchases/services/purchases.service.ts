@@ -13,7 +13,7 @@ class PurchasesService implements CRUD {
 
     calculateCashback(resource);
 
-    if (resource.cpf == config.rootReseller) {
+    if (resource.cpf == config.rootResellerCpf) {
       resource.status = "Aprovado";
     } else {
       resource.status = "Em validação";
@@ -48,7 +48,7 @@ class PurchasesService implements CRUD {
   async getPurchaseStatus(id: string) {
     var status = await PurchasesDao.getPurchaseStatus(id);
 
-    if (status == "Aprovado") {
+    if (status > 0) {
       return false;
     } else {
       return true;
