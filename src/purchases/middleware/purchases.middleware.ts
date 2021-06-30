@@ -31,7 +31,7 @@ class PurchasesMiddleware {
     if (status) {
       next();
     } else {
-      res.status(200).send({
+      res.status(400).send({
         message: `Purchase ${req.body.id} is already approved. You can't edit or remove it`,
       });
     }
