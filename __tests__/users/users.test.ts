@@ -8,7 +8,7 @@ let firstUserIdTest = '';
 const firstUserBody = {
   email: `nathanteste+${shortid.generate()}@gmail.com`,
   password: 'Sup3rSecret!23',
-  cpf: '232.333.111-26',
+  cpf: '68143181057',
   name: 'Nathan ANgelo'
 };
 
