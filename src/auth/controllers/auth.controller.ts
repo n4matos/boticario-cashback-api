@@ -7,7 +7,7 @@ import config from '../../config/config'
 const log: debug.IDebugger = debug('app:auth-controller');
 
 const jwtSecret: string = config.jwtSecret;
-const tokenExpirationInSeconds = 20;
+const tokenExpirationInSeconds = 36000;
 
 class AuthController {
   async createJWT(req: express.Request, res: express.Response) {
