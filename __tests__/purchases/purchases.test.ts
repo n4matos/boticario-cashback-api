@@ -6,8 +6,13 @@ import shortid from 'shortid';
 let dateTime = new Date()
 let accessToken = '';
 let refreshToken = '';
-
 let firstUserIdTest = '';
+let firstPurchaseIdTest = '';
+let purchaseApprovedIdTest = '';
+let purchaseApproved = '';
+
+const newCode = Math.floor(Math.random() * 1000);
+
 const userBody = {
   email: `nathanteste+${shortid.generate()}@gmail.com`,
   password: 'Sup3rSecret!23',
@@ -15,7 +20,6 @@ const userBody = {
   cpf: '68143181057',
 };
 
-let firstPurchaseIdTest = '';
 const purchaseBody = {
   code: Math.floor(Math.random() * 1000),
   cpf: '68143181057',
@@ -25,12 +29,12 @@ const purchaseBody = {
 
 const purchaseBodyNoReseller = {
   code: Math.floor(Math.random() * 1000),
-  cpf: '83123035026',
+  cpf: '11111111111',
   date: dateTime.toISOString(),
   value: Math.floor(Math.random() * 1000),
 };
 
-let purchaseApprovedIdTest = '';
+
 const purchaseBodyApproved = {
   code: Math.floor(Math.random() * 1000),
   cpf: '15350946056',
@@ -38,9 +42,7 @@ const purchaseBodyApproved = {
   value: Math.floor(Math.random() * 1000),
 };
 
-const newCode = Math.floor(Math.random() * 1000);
-
-describe('auth endpoint', function () {
+describe('authencation for purchases endpoints', function () {
   let request: supertest.SuperAgentTest;
   before(function () {
     request = supertest.agent(app);
@@ -93,6 +95,7 @@ describe('auth endpoint', function () {
       expect(res.body).to.be.an('object');
       expect(res.body.id).to.be.a('string');
       purchaseApprovedIdTest = res.body.id;
+      purchaseApproved = res.body.id;
     });
 
     it('should disallow a POST to /purchases when no resellers are registered', async function () {
@@ -136,7 +139,7 @@ describe('auth endpoint', function () {
 
     it('should disallow a PATCH to /purchases/:purchaseId with approved purchase status', async function () {
       const res = await request
-        .patch(`/purchases/${purchaseApprovedIdTest}`)
+        .patch(`/purchases/${purchaseApproved}`)
         .set({ Authorization: `Bearer ${accessToken}` })
         .send({
           code: newCode,
@@ -164,22 +167,14 @@ describe('auth endpoint', function () {
 
     it('should disallow a DELETE to /purchases/:purchaseId with approved purchase status', async function () {
       const res = await request
-        .delete(`/purchases/${purchaseApprovedIdTest}`)
+        .delete(`/purchases/${purchaseApproved}`)
         .set({ Authorization: `Bearer ${accessToken}` })
         .send();
       expect(res.status).to.equal(400);
     });
 
 
-    it('should allow a GET to a external API to check cashback', async function () {
-      const res = await request
-        .get(`/cashback`)
-        .send();
-      expect(res.status).to.equal(200);
-      expect(res.body).not.to.be.empty;
-      expect(res.body).to.be.an('object');
-      expect(res.body.credit).to.be.a('number');
-    });
+
 
   });
 });
