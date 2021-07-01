@@ -12,9 +12,10 @@ Para rodar o projeto, precisa ter instalado a versão 16.3 do Node.js, Docker e 
 ## Instruções
 
 1. Digite `npm i` para instalar as dependências necessárias.
-2. Digite `sudo docker-compose up -d` para ter uma instância do MongoDB funcionando.
-3. Digite o comando `migrate-mongo up` para realizar a criação do primeiro usuário.
-4. À partir dai, todos os comandos abaixo devem funcionar:
+2. Digite `npm i -g migrate-mongo` para instalar a dependência global do migrate-mongo.
+3. Digite `sudo docker-compose up -d` para ter uma instância do MongoDB funcionando.
+4. Digite o comando `migrate-mongo up` para realizar a criação do primeiro usuário.
+5. A partir dai, todos os comandos abaixo devem funcionar:
 
 Para rodar os testes da aplicação:
 
