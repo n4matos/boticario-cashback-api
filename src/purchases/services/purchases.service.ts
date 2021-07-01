@@ -5,7 +5,6 @@ import { PutPurchaseDto } from '../dto/put.purchase.dto';
 import { PatchPurchaseDto } from '../dto/patch.purchase.dto';
 import config from '../../config/config';
 import calculateCashback from '../../common/services/cashback.service';
-import fetch from 'node-fetch'
 
 class PurchasesService implements CRUD {
 
@@ -53,23 +52,6 @@ class PurchasesService implements CRUD {
     } else {
       return true;
     }
-  }
-
-  async getCashbackExternalApi() {
-    const baseUrl = config.apiExternalCashback;
-    const queryString = '?cpf=12312312323';
-
-    const response = await fetch(baseUrl + queryString, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        'token': 'ZXPURQOARHiMc6Y0flhRC1LVlZQVFRnm'
-      }
-    });
-
-    var data = await response.json();
-
-    return data.body;
   }
 }
 

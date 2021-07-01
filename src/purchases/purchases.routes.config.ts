@@ -78,10 +78,6 @@ export class PurchasesRoutes extends CommonRoutesConfig {
       PurchasesController.patch,
     ])
 
-    this.app
-      .route(`/cashback`)
-      .get(PurchasesController.getCashbackExternalApi)
-
     return this.app;
   }
 }

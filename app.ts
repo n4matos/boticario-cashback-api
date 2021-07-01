@@ -8,6 +8,7 @@ import { CommonRoutesConfig } from './src/common/common.routes.config';
 import { UsersRoutes } from './src/users/users.routes.config';
 import { AuthRoutes } from './src/auth/auth.routes.config';
 import { PurchasesRoutes } from './src/purchases/purchases.routes.config';
+import { CashbackRoutes } from './src/cashback/cashbacks.routes.config';
 import debug from 'debug';
 import config from './src/config/config';
 
@@ -41,6 +42,7 @@ app.use(expressWinston.logger(loggerOptions));
 routes.push(new AuthRoutes(app));
 routes.push(new UsersRoutes(app));
 routes.push(new PurchasesRoutes(app));
+routes.push(new CashbackRoutes(app));
 
 const runningMessage = `Server running at ${config.host} + ${config.port}`;
 

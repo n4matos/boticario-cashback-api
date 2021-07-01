@@ -27,11 +27,6 @@ class PurchasesController {
     }
   }
 
-  async getCashbackExternalApi(req: express.Request, res: express.Response) {
-    const cashback = await purchasesService.getCashbackExternalApi();
-    res.status(200).send(cashback);
-  }
-
   async createPurchase(req: express.Request, res: express.Response) {
     const purchaseId = await purchasesService.create(req.body);
     res.status(201).send({ id: purchaseId });
