@@ -124,7 +124,6 @@ describe('authencation for purchases endpoints', function () {
       expect(res.body.cashback_percent).to.be.a('number');
       expect(res.body.cashback_value).to.be.a('number');
       expect(res.body.status).to.be.a('string');
-      //expect(res.body.date).to.be.a('date');
     });
 
     it('should allow a PATCH to /purchases/:purchaseId with allowed purchase status', async function () {
