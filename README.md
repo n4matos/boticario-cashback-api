@@ -9,6 +9,26 @@ Para desenvolvimento do projeto foi utilizado Node.js, Typescript juntamente com
 
 Para rodar o projeto, precisa ter instalado a versão 16.3 do Node.js, Docker e Docker Compose.
 
+# Checklist requisitos + diferenciais
+
+- [x] Nodejs;
+- [x] Banco de dados relacional ou não relacional;
+- [x] Testes unitários;
+- [x] Testes de integração; 
+- [x] Autenticação JWT; 
+
+# Arquitetura
+
+Para o desenvolvimento da API, minha intenção foi desenvolver uma api com uma estrutura maleável/escalável que respeitasse as boas práticas e os princípios SOLID.
+
+Estrutura da aplicação:
+
+- Routes: Definir as solicitações que a API pode manipular.
+- Services: Para tarefas como conexão aos nossos modelos de banco de dados, fazer consultas ou conectar-se a serviços externos.
+- Middleware: Para validar solicitações específicas antes que o Controller tenha de tratar suas especificidades.
+- Models: Para definir modelos de dados correspondentes a um determinado esquema de banco de dados, para facilitar o armazenamento e recuperação de dados.
+- Controllers: Para separar a configuração das rotas do código que (após qualquer middleware) processa uma solicitação da rota, chama as funções de serviço se necessário, e retorna uma resposta ao cliente.
+
 ## Instruções
 
 1. Digite `npm i` para instalar as dependências necessárias.
